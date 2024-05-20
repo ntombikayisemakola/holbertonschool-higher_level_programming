@@ -1,28 +1,17 @@
 #!/usr/bin/python3
-"""Creates a function to indent text."""
+"""text indent"""
 
 
 def text_indentation(text):
-    """ a text with two new lines after each '.', '?', and ':'.
-    Args:
-        text (string): text to print.
-    Raises:
-        TypeError: when text is not a string.
-    """
+    """text indent"""
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 
-    c = 0
-    while c < len(text) and text[c] == ' ':
-        c += 1
+    for delimeter in "?:.":
+        words = (delimeter + "\n\n").join(
+                [index.strip(" ") for index in words.split(delimeter)])
 
-    while c < len(text):
-        print(text[c], end="")
-        if text[c] == "\n" or text[c] in ".?:":
-            if text[c] in ".?:":
-                print("\n")
-            c += 1
-            while c < len(text) and text[c] == ' ':
-                c += 1
-            continue
-        c += 1
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testfile("tests/5-text_indentation.txt")
