@@ -1,5 +1,4 @@
-# 101-lazy_matrix_mul.txt
-
+#!/usr/bin/python3
 =================================
 How to Use 101-lazy_matrix_mul.py
 =================================
