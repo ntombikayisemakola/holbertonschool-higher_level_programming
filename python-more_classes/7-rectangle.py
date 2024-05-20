@@ -74,12 +74,19 @@ class Rectangle:
 
     def __str__(self):
         """
-        Returns a string representation of the Rectangle instance
+        The method __str__() is used to return the representation (drawing)
+        of the rectangle instance using #
+
+        If the width or the height is 0 an empty string is returned
         """
-        if self.__width == 0 or self.__height == 0:
+        if self.width == 0 or self.height == 0:
             return ""
-        else:
-            return ((str(self.print_symbol) * self.__width + "\n") * self.__height)[:-1]
+        shape_rep_array = []
+        for height in range(self.height):
+            shape_rep_array.append(self.print_symbol * self.width)
+            shape_rep_array.append("\n")
+        shape_rep_array.pop()
+        return "".join(shape_rep_array)
 
     def __repr__(self):
         """
