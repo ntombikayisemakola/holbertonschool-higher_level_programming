@@ -1,66 +1,128 @@
 #!/usr/bin/env python3
-# task_01_duck_typing.py
-
+""" Shapes, Interfaces, and Duck Typing
+"""
 from abc import ABC, abstractmethod
-import math
+from math import pi
+
 
 class Shape(ABC):
-    """Abstract base class for shapes."""
+    """
+    Abstract base class representing a shape.
+    """
 
     @abstractmethod
     def area(self):
-        """Abstract method for calculating the area of a shape."""
+        """
+        Abstract method to calculate the area of a shape.
+        This method should be implemented by subclasses.
+        """
         pass
 
     @abstractmethod
     def perimeter(self):
-        """Abstract method for calculating the perimeter of a shape."""
+        """
+        Calculates the perimeter of the object.
+
+        Returns:
+            The perimeter of the object.
+        """
         pass
 
+
 class Circle(Shape):
-    """Circle class inherits from Shape."""
+    """
+    A class representing a circle.
+
+    Attributes:
+        radius (float): The radius of the circle.
+
+    Methods:
+        area(): Calculates the area of the circle.
+        perimeter(): Calculates the perimeter of the circle.
+    """
 
     def __init__(self, radius):
-        """Initialize the circle with a radius."""
-        if radius <= 0:
-            raise ValueError("Radius must be positive.")
+        """
+        Initializes a Circle object with the given radius.
+
+        Args:
+            radius (float): The radius of the circle.
+
+        Returns:
+            None
+        """
         self.__radius = radius
 
     def area(self):
-        """Calculate the area of the circle."""
-        return math.pi * (self.__radius ** 2)
+        """
+        Calculate the area of the circle.
+
+        Returns:
+            float: The area of the circle.
+        """
+        return pi * self.__radius ** 2
 
     def perimeter(self):
-        """Calculate the perimeter (circumference) of the circle."""
-        return 2 * math.pi * self.__radius
+        """
+        Calculate the perimeter of the circle.
+
+        Returns:
+            float: The perimeter of the circle.
+        """
+        return abs(2 * pi * self.__radius)
 
 class Rectangle(Shape):
-    """Rectangle class inherits from Shape."""
+    """
+    A class representing a rectangle.
+
+    Attributes:
+        __width (int): The width of the rectangle.
+        __height (int): The height of the rectangle.
+    """
 
     def __init__(self, width, height):
-        """Initialize the rectangle with width and height."""
-        if width <= 0 or height <= 0:
-            raise ValueError("Width and height must be positive.")
+        """
+        Initializes a new instance of the Rectangle class.
+
+        Args:
+            width (int): The width of the rectangle.
+            height (int): The height of the rectangle.
+        """
         self.__width = width
         self.__height = height
 
     def area(self):
-        """Calculate the area of the rectangle."""
+        """
+        Calculates the area of the rectangle.
+
+        Returns:
+            int: The area of the rectangle.
+        """
         return self.__width * self.__height
 
     def perimeter(self):
-        """Calculate the perimeter of the rectangle."""
+        """
+        Calculates the perimeter of the rectangle.
+
+        Returns:
+            int: The perimeter of the rectangle.
+        """
         return 2 * (self.__width + self.__height)
 
 def shape_info(shape):
-    """Print the area and perimeter of the shape."""
-    print(f"Area: {shape.area()}")
-    print(f"Perimeter: {shape.perimeter()}")
+    """
+    Prints the area and perimeter of a given shape.
 
-if __name__ == "__main__":
-    # Testing the functionality
-    circle = Circle(radius=5)
-    rectangle = Rectangle(width=4, height=7)
+    Args:
+        shape (Shape): The shape object for which to calculate and print the area and perimeter.
 
-    shape_info(circle)
-    shape_info(rectangle)
+    Raises:
+        TypeError: If the given shape is not an instance of the Shape class.
+
+    Returns:
+        None
+    """
+    area = shape.area()
+    perimeter = shape.perimeter()
+    print("Area: {}".format(area))
+    print("Perimeter: {}".format(perimeter))
