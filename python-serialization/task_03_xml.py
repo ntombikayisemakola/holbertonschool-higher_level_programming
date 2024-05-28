@@ -1,27 +1,42 @@
-#!/usr/bin/env python3
-import threading
-import time
+import xml.etree.ElementTree as ET
 
-net_serialize = __import__('04-net')
+def serialize_to_xml(dictionary, filename):
+    """
+    Serialize a Python dictionary to an XML file.
+    """
+    root = ET.Element("data")
+    for key, value in dictionary.items():
+        child = ET.SubElement(root, key)
+        child.text = str(value)
 
-def main():
-    # Start the server in a separate thread
-    server_thread = threading.Thread(target=net_serialize.start_server)
-    server_thread.start()
+    tree = ET.ElementTree(root)
+    tree.write(filename, encoding='utf-8', xml_declaration=True)
 
-    # Give server some time to start listening
-    time.sleep(1)
+def deserialize_from_xml(filename):
+    """
+    Deserialize an XML file to a Python dictionary.
+    """
+    tree = ET.parse(filename)
+    root = tree.getroot()
 
-    # Run the client to send data
-    sample_dict = {
-        'name': 'Alice',
-        'age': 30,
-        'city': 'Paris'
-    }
-    net_serialize.send_data(sample_dict)
+    dictionary = {}
+    for child in root:
+        dictionary[child.tag] = child.text
 
-    # Ensure server thread ends
-    server_thread.join()
+    return dictionary
 
+# For testing purposes
 if __name__ == "__main__":
-    main()
+    sample_dict = {
+        'name': 'John',
+        'age': '28',
+        'city': 'New York'
+    }
+
+    xml_file = "data.xml"
+    serialize_to_xml(sample_dict, xml_file)
+    print(f"Dictionary serialized to {xml_file}")
+
+    deserialized_data = deserialize_from_xml(xml_file)
+    print("\nDeserialized Data:")
+    print(deserialized_data)
