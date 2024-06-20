@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-Script that creates the `State` “California” with the
-`City` “San Francisco” from the database `hbtn_0e_100_usa`.
+Script that lists all `State` objects, and corresponding
+`City` objects, contained in the database `hbtn_0e_101_usa`.
 
 Arguments:
     mysql username (str)
@@ -30,8 +30,9 @@ if __name__ == "__main__":
 
     session = Session(bind=engine)
 
-    newState = State(name="California")
-    newState.cities.append(City(name="San Francisco"))
+    states = session.query(State)
 
-    session.add(newState)
-    session.commit()
+    for state in states:
+        print("{}: {}".format(state.id, state.name))
+        for city in state.cities:
+            print("\t{}: {}".format(city.id, city.name))
