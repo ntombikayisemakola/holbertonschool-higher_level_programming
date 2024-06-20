@@ -1,36 +1,26 @@
 #!/usr/bin/python3
-
 """
-A script that lists all states from the database hbtn_0e_0_usa
-where the name matches the argument and is safe from SQL injection.
-Username, password, database name, and state name are given as user args.
+This script lists all states with
+a `name` starting with the letter `N`
+from the database `hbtn_0e_0_usa`.
 """
 
-import sys
 import MySQLdb
+from sys import argv
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        print("Usage: {} <mysql username> <mysql password> <database name> <state name searched>".format(sys.argv[0]))
-        sys.exit(1)
-        
-    db = MySQLdb.connect(user=sys.argv[1],
-                         passwd=sys.argv[2],
-                         db=sys.argv[3],
-                         host='localhost',
-                         port=3306)
+    """
+    Access to the database and get the states
+    from the database.
+    """
+    db = MySQLdb.connect(host="localhost", user=argv[1], port=3306,
+                         passwd=argv[2], db=argv[3])
 
-    cursor = db.cursor()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM states \
+                 WHERE name LIKE BINARY 'N%' \
+                 ORDER BY states.id ASC")
+    rows = cur.fetchall()
 
-    sql = """SELECT * FROM states
-             WHERE name = %s
-             ORDER BY id ASC"""
-    
-    cursor.execute(sql, (sys.argv[4],))
-    data = cursor.fetchall()
-
-    for row in data:
+    for row in rows:
         print(row)
-
-    cursor.close()
-    db.close()
